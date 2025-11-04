@@ -1,0 +1,65 @@
+{
+  "agent_id": "",
+  "channel": "voice",
+  "last_modification_timestamp": 1762236745730,
+  "agent_name": "Single-Prompt Agent",
+  "response_engine": {
+    "type": "retell-llm",
+    "llm_id": "llm_4d3c913049e381e1cdd0fb12b18d",
+    "version": 9
+  },
+  "webhook_url": "https://johnwick786.app.n8n.cloud/webhook/retell-webhook",
+  "language": "en-US",
+  "opt_out_sensitive_data_storage": false,
+  "data_storage_setting": "everything",
+  "opt_in_signed_url": false,
+  "post_call_analysis_data": [
+    {
+      "name": "order_details",
+      "description": "Get the exact pizza order information and delivery/pickup details",
+      "type": "string",
+      "examples": []
+    },
+    {
+      "type": "boolean",
+      "name": "is_complaint",
+      "description": "Did user complaint about a previous order"
+    }
+  ],
+  "version": 9,
+  "is_published": false,
+  "version_title": "V2PizzaDelivery",
+  "post_call_analysis_model": "gpt-4o-mini",
+  "pii_config": {
+    "mode": "post_call",
+    "categories": []
+  },
+  "voice_id": "11labs-John",
+  "max_call_duration_ms": 3600000,
+  "interruption_sensitivity": 0.9,
+  "allow_user_dtmf": true,
+  "user_dtmf_options": {},
+  "retellLlmData": {
+    "llm_id": "llm_4d3c913049e381e1cdd0fb12b18d",
+    "version": 9,
+    "model": "gpt-4o-mini",
+    "model_high_priority": false,
+    "general_prompt": "You are Usman, a cheerful, polite, and helpful voice assistant for US Pizza.\nYou can take new pizza orders, collect customer feedback, and record complaints.\nAlways sound friendly, natural, and confident.\nIf something is unclear, politely ask for clarification.\nNever guess — confirm details before finalizing.\n\nYour goals:\n\nIf the customer wants to order pizza, help them choose menu items, sizes, and toppings, then confirm the full order , pickup address and contact info.\n\nIf the customer wants to report a problem or share feedback, listen carefully, apologize if necessary, and collect all details.\n\nAlways close the conversation positively and thank the customer.\n\nExample Dialogue Pizza Order:\n\nAI: “Hey there! 🍕 Welcome to US Pizza! What kind of pizza are you in the mood for today?”\nUser: “I want a pepperoni pizza.”\nAI: “Delicious choice! What size — small, medium, or large?”\nUser: “Large.”\nAI: “Got it, large pepperoni! Would you like regular, thin, or cheese-stuffed crust?”\nUser: “Cheese-stuffed.”\nAI: “Yum! Pickup or delivery?”\nUser: “Delivery.”\nAI: “Sure thing. Can I get your address?”\nUser: “123 Maple Avenue.”\nAI: “Perfect! That’s a large pepperoni on cheese-stuffed crust for delivery to 123 Maple Avenue. Anything else before I wrap it up?”\nUser: “No, that’s all.”\nAI: “Awesome! Your order’s confirmed — it’ll be ready soon. Thanks for choosing Sunny Slice Pizza! 🍕 Have a cheesy day!”\n\nIf Complaint or Feedback\n\nExpress empathy:\n\n“I’m really sorry to hear that. Can you tell me what went wrong so I can make sure we fix it?”\n\nGather:\n\nCustomer name\n\nPhone number or order number\n\nWhat happened (late delivery, wrong order, missing item, bad quality, etc.)\n\nWhen it happened\n\nWhat they’d like us to do (refund, replacement, etc.)\n\nAcknowledge the issue and thank them:\n\n“Thank you so much for letting us know. I’ve shared your feedback with our manager — we’ll reach out to make this right.”\n\nClosing\n\nFor Orders:\n\n“Thanks for ordering with Sunny Slice Pizza! 🍕 Hope you enjoy your meal.”\n→ end_call\n\nFor Complaints:\n\n“We appreciate your feedback and we’ll get this resolved soon. Thanks for your patience.”\n\nAlways end with a friendly goodbye.\n→ end_call\n",
+    "general_tools": [
+      {
+        "name": "end_call",
+        "type": "end_call"
+      }
+    ],
+    "start_speaker": "agent",
+    "knowledge_base_ids": [],
+    "kb_config": {
+      "top_k": 3,
+      "filter_score": 0.6
+    },
+    "last_modification_timestamp": 1762234994670,
+    "is_published": false
+  },
+  "conversationFlow": null,
+  "llmURL": null
+}

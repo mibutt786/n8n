@@ -1,0 +1,268 @@
+{
+  "name": "Retell AI Pizza Order and Complaint Router",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "retell-webhook",
+        "responseMode": "lastNode",
+        "options": {}
+      },
+      "id": "930aa862-dab1-4f75-97b2-942e60ea172a",
+      "name": "Retell AI Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -112,
+        144
+      ],
+      "webhookId": "6b1e1c2e-113a-40b9-af5b-ad16c39a55ab"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.body.call.call_analysis.custom_analysis_data.is_complaint }}",
+                    "rightValue": "order",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "false",
+                      "singleValue": true
+                    },
+                    "id": "29b4874b-d944-45a3-a4d9-e929d83a312a"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "order"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.body.call.call_analysis.custom_analysis_data.is_complaint }}",
+                    "rightValue": "complaint",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    },
+                    "id": "cdbb8bac-69b8-4cf0-a8ed-38ecc6332326"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "complaint"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "922747bc-edea-41a5-b27e-580f4673b012",
+      "name": "Route by Type",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.3,
+      "position": [
+        416,
+        144
+      ]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.body }}",
+        "options": {
+          "systemMessage": "You are a pizza order processing agent. Your task is to:\n1. Extract the pizza order details from the provided data\n2. Use the Pizza Ordering System Tool to submit the order\n3. Return the order confirmation details\n\nProcess the order accurately and return the confirmation."
+        }
+      },
+      "id": "03442566-c1c8-48eb-b98b-3b0d52e3faf0",
+      "name": "Pizza Order Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3,
+      "position": [
+        672,
+        296
+      ]
+    },
+    {
+      "parameters": {
+        "url": "=https://mocki.io/v1/30ad2a18-de6a-4e9d-a7d2-fd39143e2611",
+        "options": {}
+      },
+      "id": "30bbadd2-8593-4c76-889c-268afa238489",
+      "name": "Create Support Ticket",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        736,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "id": "687b01af-d3b5-4081-a82f-1f79341612dd",
+      "name": "OpenAI Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        680,
+        520
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "3D9pWUHAMsgNPPTs",
+          "name": "n8n free OpenAI API credits"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "toolDescription": "Submits a pizza order to the ordering system. Provide the complete order details including items, customer info, and delivery address.",
+        "url": "=https://mocki.io/v1/30ad2a18-de6a-4e9d-a7d2-fd39143e2611",
+        "options": {}
+      },
+      "id": "d75fadf1-8fcb-4aab-b04d-c1d519ffe70d",
+      "name": "Pizza Ordering System Tool",
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.3,
+      "position": [
+        864,
+        512
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "8c523eb9-fb56-4cad-ae4b-bfc1959595fa",
+              "leftValue": "={{ $json.body.event }}",
+              "rightValue": "call_analyzed",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        128,
+        144
+      ],
+      "id": "71583ff8-d2d7-4128-99ef-01ad834072be",
+      "name": "Filter"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Retell AI Webhook": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Route by Type": {
+      "main": [
+        [
+          {
+            "node": "Pizza Order Agent",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Create Support Ticket",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Pizza Order Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pizza Ordering System Tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "Pizza Order Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "Route by Type",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "45b0ef59-5d1d-4c4b-af72-6e138170ee56",
+  "meta": {
+    "instanceId": "132ec9e7758409b526b8cf0d65713c4730af2a3dc4459069e38dd448e093707d"
+  },
+  "id": "IwEjknwkXI9eU511",
+  "tags": []
+}
