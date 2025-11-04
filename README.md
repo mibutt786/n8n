@@ -22,3 +22,6 @@ Each workflow is packaged as a `.json` export file from n8n that you can easily 
 
 ## 🗂️ Repository Structure
 
+Each project is organized into its own subfolder for clarity and modularity
+
+
