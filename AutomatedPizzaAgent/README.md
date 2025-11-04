@@ -19,6 +19,6 @@ This project demonstrates how to:
 
 
 ## 🎥 Local Demo
-[Watch the demo](./demo/PizzaOrder.mp4)
-[Watch the demo](./demo/Complaint.mp4)
+[Pizza Order Demo](./demo/PizzaOrder.mp4)
+[Complaint Demo](./demo/Complaint.mp4)
 
