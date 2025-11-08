@@ -20,5 +20,11 @@ This project demonstrates how to:
 
 ## 🎥 Local Demo
 [Pizza Order Demo](./demo/PizzaOrder.mp4)
+
 [Complaint Demo](./demo/Complaint.mp4)
+
+## 🎥 Demo Video
+
+[![Watch the demo](https://img.youtube.com/vi/zBSgaeNegdc/0.jpg)](https://www.youtube.com/watch?v=zBSgaeNegdc)
+
 
